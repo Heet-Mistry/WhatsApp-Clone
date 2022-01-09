@@ -1,11 +1,13 @@
-
 import './App.css';
+import Sidebar from './Sidebar.js'
 
 function App() {
   return (
-    <div className="App">
-      Hello
-      stayam and heet satyam is chutiyo
+    // Bem naming conevtion
+    <div className="app"> 
+      <div className="app__body">
+          <Sidebar />
+      </div>
     </div>
   );
 }
