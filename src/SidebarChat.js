@@ -17,7 +17,7 @@ const SidebarChat = ({id,name,addNewChat}) => {
                 doc.data()))
             });
         }
-    },[]);
+    },[id]);
 
 
     useEffect(() => {
@@ -41,7 +41,7 @@ const SidebarChat = ({id,name,addNewChat}) => {
                 <Avatar src={`https://avatars.dicebear.com/api/adventurer/${seed}.svg`} />
                 <div className="sidebarChat__info">
                     <h2>{name}</h2>
-                    <p>{messages[0]?.message}</p>
+                    <p>{messages[0]?.message.length>15?(messages[0]?.message.slice(0,15)+"..."):(messages[0]?.message)}</p>
                 </div>
                 </div>
            </Link>
