@@ -4,6 +4,8 @@ import { Avatar,IconButton } from '@material-ui/core'
 import { AttachFile,MoreVert ,SearchOutlined,Mic,InsertEmoticon } from '@material-ui/icons';
 import { useParams } from 'react-router-dom';
 import db from './firebase'
+import firebase from 'firebase/compat/app'
+import { useStateValue } from './StateProvider';
 
 const Chat = () => {
 
@@ -11,6 +13,8 @@ const Chat = () => {
     const [seed,setSeed] = useState('');
     const {roomId} = useParams();
     const [roomName,setRoomName] = useState("");
+    const [messages,setMessages] = useState([]);
+    const [{user},dispatch] = useStateValue();
 
     useEffect(()=>{
         if(roomId){
@@ -18,6 +22,15 @@ const Chat = () => {
             .doc(roomId)
             .onSnapshot(snapshot => setRoomName(snapshot.data().name));
             setSeed(Math.floor(Math.random()*5000))
+            
+            db.collection('rooms')
+            .doc(roomId)
+            .collection('messages')
+            .orderBy('timestamp','asc')
+            .onSnapshot((snapshot)=>{
+                setMessages(snapshot.docs.map((doc)=>
+                doc.data()))
+            });
         }
     },[roomId])
 
@@ -26,8 +39,15 @@ const Chat = () => {
     }, []);
 
     function sendMessage(e){
+
         e.preventDefault()
-        console.log('you typed ' + input);
+
+        db.collection('rooms').doc(roomId).collection('messages').add({
+            message:input,
+            name:user.displayName,
+            timestamp:firebase.firestore.FieldValue.serverTimestamp(),
+        });
+
         setInput('')
     }
     return (
@@ -53,23 +73,19 @@ const Chat = () => {
                     </div>
                     
                 </div>
+                
                 <div className="chat__body" id="style-2">
-                      <p className={`chat__message ${true &&"chat__receiver"}`}>
-                          <span className="chat__name">Heet Mistry</span>
-                          Hellllo WhatsApp Here
-                          <span className="chat__timeStamp">12:00</span>
-                      </p>
-                      <p className="chat__message">
-                          <span className="chat__name">Heet Mistry</span>
-                          Hellllo WhatsApp Here
-                          <span className="chat__timeStamp">12:00</span>
-                      </p>
-                      <p className="chat__message">
-                          <span className="chat__name">Heet Mistry</span>
-                          Hellllo WhatsApp Here
-                          <span className="chat__timeStamp">12:00</span>
-                      </p>
+                      {messages.map(message=>(
+                        <p className={`chat__message ${message.name===user.displayName &&"chat__receiver"}`}>
+                          <span className="chat__name">{message.name}</span>
+                          {message.message}
+                          <span className="chat__timeStamp">{
+                              new Date(message.timestamp?.toDate()).toUTCString()
+                          }</span>
+                         </p>
+                      ))}
                 </div>
+
                 <div className="chat__footer">
                     <InsertEmoticon />
                     <form onSubmit={sendMessage}>

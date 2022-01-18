@@ -7,11 +7,12 @@ import ChatIcon from '@material-ui/icons/Chat'
 import SearchOutlined from '@material-ui/icons/SearchOutlined'
 import SidebarChat from './SidebarChat'
 import db from './firebase'
-
+import {useStateValue} from './StateProvider'
 
 const Sidebar = () => {
 
     const [roomsss,setRooms]=useState([]);
+    const [{user},dispatch] = useStateValue();
 
     useEffect(()=>{
         const unsubscribe=db.collection('rooms').onSnapshot(snapshot=>(setRooms(snapshot.docs.map(doc=>({
@@ -25,12 +26,12 @@ const Sidebar = () => {
         
     },[]);
 
-    console.log(roomsss);
+    //console.log(roomsss);
 
     return (
         <div className='sidebar'>
                 <div className="sidebar__header">
-                    <Avatar />
+                    <Avatar src={user?.photoURL} />
                     <div className="sidebar__headerRight">
                        <IconButton>
                             <DonutLargeIcon />

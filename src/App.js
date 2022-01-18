@@ -4,11 +4,12 @@ import Sidebar from './Sidebar.js'
 import Chat from './Chat';
 import { BrowserRouter as Router,Switch, Route} from 'react-router-dom';
 import Login from './Login';
+import {useStateValue} from './StateProvider'
 
 function App() {
 
-  const [user,setUser] = useState(null);
-  
+   const [{user},dispatch] = useStateValue();
+   
   return (
     // Bem naming conevtion
     <div className="app"> 
