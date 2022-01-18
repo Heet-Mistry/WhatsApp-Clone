@@ -14,6 +14,7 @@ const Chat = () => {
     const {roomId} = useParams();
     const [roomName,setRoomName] = useState("");
     const [messages,setMessages] = useState([]);
+    // eslint-disable-next-line no-unused-vars
     const [{user},dispatch] = useStateValue();
 
     useEffect(()=>{
@@ -57,7 +58,8 @@ const Chat = () => {
 
                     <div className="chat__headerInfo">
                         <h3>{roomName}</h3>
-                        <p>Last Seen at ...</p>
+                        
+                        <p>Last Seen{" "}{ new Date(messages[messages.length-1]?.timestamp?.toDate()).toUTCString()}</p>
                     </div>
 
                     <div className="chat__headerRight">
@@ -73,12 +75,12 @@ const Chat = () => {
                     </div>
                     
                 </div>
-                
+
                 <div className="chat__body" id="style-2">
                       {messages.map(message=>(
                         <p className={`chat__message ${message.name===user.displayName &&"chat__receiver"}`}>
                           <span className="chat__name">{message.name}</span>
-                          {message.message}
+                          <span className='chat__message__content'>{message.message}</span>
                           <span className="chat__timeStamp">{
                               new Date(message.timestamp?.toDate()).toUTCString()
                           }</span>

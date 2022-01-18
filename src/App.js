@@ -1,4 +1,4 @@
-import {useState} from 'react'
+import React from 'react'
 import './App.css';
 import Sidebar from './Sidebar.js'
 import Chat from './Chat';
@@ -8,7 +8,8 @@ import {useStateValue} from './StateProvider'
 
 function App() {
 
-   const [{user},dispatch] = useStateValue();
+   // eslint-disable-next-line no-unused-vars
+    const [{user},dispatch] = useStateValue();
    
   return (
     // Bem naming conevtion

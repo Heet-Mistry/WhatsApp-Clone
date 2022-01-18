@@ -12,6 +12,7 @@ import {useStateValue} from './StateProvider'
 const Sidebar = () => {
 
     const [roomsss,setRooms]=useState([]);
+    // eslint-disable-next-line no-unused-vars
     const [{user},dispatch] = useStateValue();
 
     useEffect(()=>{

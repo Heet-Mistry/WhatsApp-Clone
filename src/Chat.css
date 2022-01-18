@@ -24,15 +24,18 @@
 .chat__headerInfo > p{
     color:gray;
 }
-
+.chat__message__content{
+   width: fit-content;
+}
 .chat__message{
     position: relative;
     font-size: 16px;
     padding: 10px;
     background-color: #ffffff;
     width: fit-content;
+    max-width: 600px;
     border-radius: 10px;
-    margin-bottom: 32px ;
+    margin-bottom: 32px;
 }
 
 .chat__receiver{
