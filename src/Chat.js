@@ -7,6 +7,7 @@ import db from './firebase'
 import firebase from 'firebase/compat/app'
 import { useStateValue } from './StateProvider';
 import { Link,Redirect } from 'react-router-dom';
+import Picker from 'emoji-picker-react';
 
 // import { mdiDelete } from '@mdi/js';
 //import RestoreFromTrash from "@bit/mui-org.material-ui-icons.restore-from-trash";
@@ -137,6 +138,7 @@ const Chat = () => {
 
                 <div className="chat__footer">
                     <InsertEmoticon />
+                    {/* <Picker onEmojiClick={onEmojiClick} /> */}
                     <form onSubmit={sendMessage}>
                         <input value={input} type="text" onChange={e=>setInput(e.target.value)} placeholder='Type your Message here'/>
                         
