@@ -6,6 +6,7 @@ import { useParams } from 'react-router-dom';
 import db from './firebase'
 import firebase from 'firebase/compat/app'
 import { useStateValue } from './StateProvider';
+import { Link,Redirect } from 'react-router-dom';
 
 // import { mdiDelete } from '@mdi/js';
 //import RestoreFromTrash from "@bit/mui-org.material-ui-icons.restore-from-trash";
@@ -18,7 +19,7 @@ const Chat = () => {
     const {roomId} = useParams();
     const [roomName,setRoomName] = useState("");
     const [messages,setMessages] = useState([]);
-    // eslint-disable-next-line no-unused-vars
+    
     const [{user},dispatch] = useStateValue();
 
     useEffect(()=>{
@@ -67,12 +68,27 @@ const Chat = () => {
         
         //console.log(msgID);
         
-        db.collection('rooms').doc(roomId).collection('messages').doc(msgID.toString()).delete().then(() => {
+        await db.collection('rooms').doc(roomId).collection('messages').doc(msgID.toString()).delete().then(() => {
             console.log("Document successfully deleted!");
         }).catch((error) => {
             console.error("Error removing document: ", error);
         });
     }
+
+    async function deleteRoom(){
+    
+        await db.collection('rooms').doc(roomId).delete().then(() => {
+            console.log("Room successfully deleted!");
+        }).catch((error) => {
+            console.error("Error removing Room: ", error);
+        });
+        
+        setRoomName("");
+        setMessages([]);
+
+        window.location.href="/rooms";
+    }
+    
     return (
         <div className='chat'>
                 <div className="chat__header">
@@ -91,8 +107,8 @@ const Chat = () => {
                         <IconButton>
                             <MoreVert />
                         </IconButton>  
-                        <IconButton>
-                            <Delete onClick={deleteRoom}/>
+                        <IconButton onClick={deleteRoom}>
+                            <Delete />
                        </IconButton>
                     </div>
                     

@@ -11,6 +11,7 @@ import {useStateValue} from './StateProvider'
 
 const Sidebar = () => {
 
+    const [element,setElement] = useState("");
     const [roomsss,setRooms]=useState([]);
     // eslint-disable-next-line no-unused-vars
     const [{user},dispatch] = useStateValue();
@@ -26,6 +27,10 @@ const Sidebar = () => {
         };
         
     },[]);
+
+    function searchName(e){
+        setElement(e.target.value)
+    }
 
     //console.log(roomsss);
 
@@ -48,8 +53,8 @@ const Sidebar = () => {
 
                 <div className="sidebar__search">
                         <div className="sidebar__searchContainer">
-                            <SearchOutlined />
-                            <input type="text" placeholder='Search for new  chat'/> 
+                            <SearchOutlined />  
+                            <input value={element} onChange={(e)=>{searchName(e)}} type="text" placeholder='Search for new  chat'/> 
                         </div> 
                 </div>
 
